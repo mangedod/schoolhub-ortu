@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Schoolhub Parent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen py-12 transition-colors duration-300">
+
+    <div class="max-w-xl mx-auto w-full px-8">
+        
+        <!-- Header -->
+        <div class="flex items-center mb-10">
+            <a href="login.html" class="w-10 h-10 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all">
+                <i class="bi bi-arrow-left text-xl"></i>
+            </a>
+            <h1 class="ml-4 text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white">Pendaftaran Wali</h1>
+        </div>
+
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-4">Buat Akun Baru</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Silakan lengkapi data diri Anda untuk memulai.</p>
+        </div>
+
+        <!-- Register Card -->
+        <div class="glass-card rounded-[3rem] p-8 md:p-10">
+            <form action="otp.html" class="space-y-6">
+                <!-- Row 1: Full Name -->
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Lengkap</label>
+                    <div class="relative group">
+                        <i class="bi bi-person absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors"></i>
+                        <input type="text" placeholder="Bambang Wijaya" class="w-full pl-12 pr-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-blue-600 dark:focus:border-blue-500 rounded-2xl outline-none transition-all text-sm font-semibold dark:text-white">
+                    </div>
+                </div>
+
+                <!-- Row 2: Email -->
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Alamat Email</label>
+                    <div class="relative group">
+                        <i class="bi bi-envelope absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors"></i>
+                        <input type="email" placeholder="bambang@gmail.com" class="w-full pl-12 pr-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-blue-600 dark:focus:border-blue-500 rounded-2xl outline-none transition-all text-sm font-semibold dark:text-white">
+                    </div>
+                </div>
+
+                <!-- Row 3: Phone -->
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nomor WhatsApp</label>
+                    <div class="relative group">
+                        <i class="bi bi-whatsapp absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-green-500 transition-colors"></i>
+                        <input type="tel" placeholder="0812XXXXXXXX" class="w-full pl-12 pr-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-blue-600 dark:focus:border-blue-500 rounded-2xl outline-none transition-all text-sm font-semibold dark:text-white">
+                    </div>
+                </div>
+
+                <!-- Row 4: Password -->
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Buat Kata Sandi</label>
+                    <div class="relative group" x-data="{ show: false }">
+                        <i class="bi bi-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors"></i>
+                        <input :type="show ? 'text' : 'password'" placeholder="" class="w-full pl-12 pr-12 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-blue-600 dark:focus:border-blue-500 rounded-2xl outline-none transition-all text-sm font-semibold dark:text-white">
+                        <button type="button" @click="show = !show" class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-all">
+                            <i class="bi" :class="show ? 'bi-eye-slash' : 'bi-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 px-2">
+                    <input type="checkbox" class="w-5 h-5 rounded-lg border-2 border-slate-200 dark:border-slate-700 text-blue-600 focus:ring-blue-500/20 bg-transparent">
+                    <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 leading-tight">Saya setuju dengan <a href="#" class="text-blue-600 dark:text-blue-400 underline italic">Syarat & Ketentuan</a> Schoolhub Portal.</p>
+                </div>
+
+                <button type="submit" class="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    Daftar Sekarang <i class="bi bi-arrow-right ml-2"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">Sudah punya akun? <a href="login.html" class="text-blue-600 dark:text-blue-400 font-black">Masuk Di Sini</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

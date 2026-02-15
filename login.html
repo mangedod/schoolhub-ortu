@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - Schoolhub Parent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col justify-center transition-colors duration-300">
+
+    <div class="max-w-xl mx-auto w-full px-8 py-12">
+        
+        <!-- Branding -->
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 bg-blue-600 rounded-[2rem] flex items-center justify-center text-white text-4xl shadow-2xl shadow-blue-500/30 mx-auto mb-6">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">Schoolhub <span class="text-blue-600 uppercase text-xs font-black tracking-[0.3em] block mt-2">Parent Portal</span></h1>
+        </div>
+
+        <!-- Login Card -->
+        <div class="glass-card rounded-[3rem] p-8 md:p-10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-[5rem]"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-8">Selamat Datang Kembali</h2>
+                
+                <form action="index.html" class="space-y-6">
+                    <div>
+                        <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Email / Username</label>
+                        <div class="relative group">
+                            <i class="bi bi-person absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors"></i>
+                            <input type="text" placeholder="bambang@gmail.com" class="w-full pl-12 pr-6 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-blue-600 dark:focus:border-blue-500 rounded-2xl outline-none transition-all text-sm font-semibold dark:text-white">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1 block">Kata Sandi</label>
+                            <a href="forgot.html" class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest hover:underline">Lupa?</a>
+                        </div>
+                        <div class="relative group" x-data="{ show: false }">
+                            <i class="bi bi-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors"></i>
+                            <input :type="show ? 'text' : 'password'" placeholder="" class="w-full pl-12 pr-12 py-5 bg-slate-50 dark:bg-slate-800/50 border-2 border-transparent focus:border-blue-600 dark:focus:border-blue-500 rounded-2xl outline-none transition-all text-sm font-semibold dark:text-white">
+                            <button type="button" @click="show = !show" class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-all">
+                                <i class="bi" :class="show ? 'bi-eye-slash' : 'bi-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:scale-[1.02] active:scale-95 transition-all">
+                        Masuk Sekarang <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </form>
+
+                <div class="mt-10 pt-10 border-t border-slate-100 dark:border-slate-800 text-center">
+                    <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tight">Belum punya akun? <a href="register.html" class="text-blue-600 dark:text-blue-400 font-black">Daftar Di Sini</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center text-slate-400 dark:text-slate-600">
+            <p class="text-[10px] font-black uppercase tracking-[0.4em]">Schoolhub System v2.1</p>
+        </div>
+    </div>
+
+</body>
+</html>

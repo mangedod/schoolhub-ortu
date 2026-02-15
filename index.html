@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Orang Tua - Schoolhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Inline script to prevent FOUC (Flash of Unstyled Content)
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .premium-shadow {
+            box-shadow: 0 20px 50px -12px rgba(59, 130, 246, 0.15);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body x-data="{ 
+    notificationsOpen: false, 
+    activeTab: 'home', 
+    darkMode: document.documentElement.classList.contains('dark'),
+    toggleTheme() {
+        this.darkMode = !this.darkMode;
+        if (this.darkMode) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('color-theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('color-theme', 'light');
+        }
+    }
+}" class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen pb-32 transition-colors duration-300">
+
+    <!-- Top Header -->
+    <header class="fixed top-0 inset-x-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-100 dark:border-slate-800/50 transition-colors">
+        <div class="max-w-xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+                <span class="font-bold text-lg tracking-tight text-slate-800 dark:text-white">Schoolhub <span class="text-blue-600 uppercase text-[10px] font-black tracking-widest ml-1">Parent</span></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button @click="toggleTheme()" class="p-2.5 text-slate-400 hover:text-blue-600 transition-colors">
+                    <i x-show="!darkMode" class="bi bi-moon-stars text-lg"></i>
+                    <i x-show="darkMode" class="bi bi-sun-fill text-lg text-yellow-500"></i>
+                </button>
+                <div class="w-px h-4 bg-slate-200 dark:bg-slate-800 mx-1"></div>
+                <button @click="notificationsOpen = true" class="p-2.5 text-slate-400 relative hover:text-blue-600 transition-colors">
+                    <div class="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></div>
+                    <i class="bi bi-bell text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-xl mx-auto pt-24 px-6">
+        
+        <!-- Welcome Section -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Assalamu'alaikum,</p>
+                <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none">Bp. Bambang</h2>
+                <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-2 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full inline-block">Wali Murid</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 p-0.5 shadow-xl shadow-blue-500/20 active:scale-95 transition-all cursor-pointer" @click="activeTab = 'child'">
+                <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[0.9rem] flex items-center justify-center">
+                    <span class="bg-gradient-to-br from-indigo-500 to-blue-600 bg-clip-text text-transparent font-black text-lg">BW</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Card (Billing) -->
+        <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 text-white relative overflow-hidden premium-shadow mb-8">
+            <div class="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-indigo-400/20 rounded-tl-[3rem]"></div>
+            
+            <div class="relative z-10">
+                <div class="flex flex-col mb-10">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-100 opacity-80 mb-2">Total Tagihan Berjalan</span>
+                    <h2 class="text-4xl font-extrabold tracking-tighter text-white">Rp 1.450.000</h2>
+                    <div class="flex items-center gap-1.5 mt-2 opacity-80">
+                        <i class="bi bi-info-circle text-[10px]"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-white">Terdiri dari 2 item tagihan</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10">
+                        <i class="bi bi-calendar3 text-[10px] text-white"></i>
+                        <span class="text-xs font-bold text-white">Jatuh Tempo: 10 Okt</span>
+                    </div>
+                    <a href="payment-portal.html" class="px-6 py-4 bg-white text-blue-700 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl hover:scale-105 transition-all active:scale-95">Bayar <i class="bi bi-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Access Tabs -->
+        <div class="flex gap-2 mb-8 p-1.5 bg-slate-100 dark:bg-slate-900 rounded-[1.2rem] h-14 overflow-hidden shadow-inner border border-slate-200/50 dark:border-slate-800/50 transition-colors">
+            <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'" 
+                    class="flex-1 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                <i class="bi bi-grid-fill text-sm"></i> RINGKASAN
+            </button>
+            <button @click="activeTab = 'child'" :class="activeTab === 'child' ? 'bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'" 
+                    class="flex-1 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                <i class="bi bi-person-fill text-sm"></i> ANAK SAYA
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="relative">
+            <!-- Home Content -->
+            <div x-show="activeTab === 'home'" x-cloak x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-8">
+                <div>
+                    <div class="flex justify-between items-end mb-6 pl-1">
+                        <div>
+                            <h3 class="text-sm font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 italic">Daftar Tagihan</h3>
+                            <div class="h-1 w-8 bg-blue-500 rounded-full mt-1"></div>
+                        </div>
+                        <a href="billing-list.html" class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest transition-all">Lihat Semua</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl p-5 rounded-[2rem] flex items-center gap-4 group transition-all">
+                            <div class="w-14 h-14 bg-amber-50 dark:bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center shrink-0">
+                                <i class="bi bi-clipboard2-check-fill text-2xl"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-800 dark:text-white truncate text-sm">SPP Oktober 2023</h4>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter mt-1">Tagihan Rutin</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-base font-black text-slate-900 dark:text-white leading-none">Rp 750k</p>
+                                <span class="text-[9px] font-black uppercase text-red-500 mt-2 block tracking-widest">UNPAID</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Child Content -->
+            <div x-show="activeTab === 'child'" x-cloak x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                <!-- Profile Card -->
+                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl rounded-[2.5rem] p-8 overflow-hidden relative border-t-4 border-t-blue-500">
+                    <div class="absolute top-0 right-0 p-6">
+                        <span class="px-3 py-1 bg-green-500/10 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-green-500/20">Aktif</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center text-center">
+                        <div class="relative mb-6">
+                            <div class="w-24 h-24 rounded-[2rem] bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-3xl font-black shadow-xl shadow-blue-500/20">
+                                AW
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-white dark:bg-slate-800 rounded-2xl shadow-lg flex items-center justify-center border-4 border-[#F8FAFC] dark:border-slate-950">
+                                <i class="bi bi-patch-check-fill text-blue-500"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-1">Andi Wijaya</h4>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">NISN: 0012345678</p>
+                        
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="text-[9px] font-black text-blue-600 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-xl uppercase tracking-widest border border-blue-100 dark:border-blue-800/50">Kelas X-IPA-1</span>
+                            <span class="text-[9px] font-black text-indigo-600 px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl uppercase tracking-widest border border-indigo-100 dark:border-indigo-800/50">SMA Negeri 1 Jakarta</span>
+                        </div>
+                    </div>
+
+                    <!-- Academic Stats -->
+                    <div class="grid grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-100 dark:border-slate-800/50">
+                        <div class="text-center">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Kehadiran</p>
+                            <p class="text-lg font-black text-slate-900 dark:text-white">98%</p>
+                        </div>
+                        <div class="text-center border-x border-slate-100 dark:border-slate-800/50">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Rata Nilai</p>
+                            <p class="text-lg font-black text-slate-900 dark:text-white">88.5</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Peringkat</p>
+                            <p class="text-lg font-black text-slate-900 dark:text-white">#04</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Details -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl p-5 rounded-[2rem]">
+                        <div class="w-10 h-10 bg-orange-50 dark:bg-orange-500/10 text-orange-600 rounded-xl flex items-center justify-center mb-3">
+                            <i class="bi bi-calendar-event-fill"></i>
+                        </div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Wali Kelas</p>
+                        <p class="text-xs font-bold text-slate-800 dark:text-white">Ibu Sri Wahyuni</p>
+                    </div>
+                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl p-5 rounded-[2rem]">
+                        <div class="w-10 h-10 bg-purple-50 dark:bg-purple-500/10 text-purple-600 rounded-xl flex items-center justify-center mb-3">
+                            <i class="bi bi-book-fill"></i>
+                        </div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Mapel</p>
+                        <p class="text-xs font-bold text-slate-800 dark:text-white">12 Mata Pelajaran</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+                                <!-- Navigation: Sleek Minimalist Dock -->
+    <nav class="fixed bottom-0 inset-x-0 z-50 px-4 pb-4 pt-2 pointer-events-none">
+        <div class="max-w-xl mx-auto pointer-events-auto">
+            <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800/50 flex items-center justify-between p-1.5 relative">
+                
+                <!-- Home -->
+                <a href="index.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('dashboard') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('dashboard') ? 'bi-house-door-fill' : 'bi-house-door'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Home</span>
+                </a>
+
+                <!-- Bills -->
+                <a href="billing-list.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('billing') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('billing') ? 'bi-receipt-cutoff' : 'bi-receipt'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Bills</span>
+                </a>
+
+                <!-- Compact Central Button -->
+                <div class="flex-1 flex justify-center -mt-6 relative">
+                    <a href="payment-portal.html" class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-4 border-[#F8FAFC] dark:border-slate-950 transition-all duration-300 hover:scale-105 active:scale-95 group">
+                        <i class="bi bi-wallet2 text-lg"></i>
+                    </a>
+                </div>
+
+                <!-- Chat -->
+                <a href="communication.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('communication') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('communication') ? 'bi-chat-dots-fill' : 'bi-chat-dots'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Chat</span>
+                </a>
+
+                <!-- Settings -->
+                <a href="settings.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('settings') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('settings') ? 'bi-person-fill' : 'bi-person'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Self</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Notification Sidebar (Offcanvas) -->
+    <div x-show="notificationsOpen" 
+         x-cloak
+         class="fixed inset-0 z-[60] overflow-hidden" 
+         aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Background backdrop -->
+            <div x-show="notificationsOpen"
+                 x-transition:enter="ease-in-out duration-500"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in-out duration-500"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="notificationsOpen = false"
+                 class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <div x-show="notificationsOpen"
+                     x-transition:enter="transform transition ease-in-out duration-500"
+                     x-transition:enter-start="translate-x-full"
+                     x-transition:enter-end="translate-x-0"
+                     x-transition:leave="transform transition ease-in-out duration-500"
+                     x-transition:leave-start="translate-x-0"
+                     x-transition:leave-end="translate-x-full"
+                     class="pointer-events-auto w-screen max-w-md">
+                    <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-slate-900 shadow-2xl">
+                        <div class="px-6 py-6 border-b border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight" id="slide-over-title">Notifikasi</h2>
+                                <button @click="notificationsOpen = false" class="p-2 text-slate-400 hover:text-red-500 transition-colors">
+                                    <i class="bi bi-x-lg text-xl"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative flex-1 px-6 py-4">
+                            <!-- Notification Items -->
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/50">
+                                    <div class="flex gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shrink-0">
+                                            <i class="bi bi-megaphone-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-sm font-bold text-slate-900 dark:text-white">Tagihan Baru Diterbitkan</h5>
+                                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">SPP Bulan November sudah dapat dibayarkan melalui portal.</p>
+                                            <p class="text-[9px] font-black text-blue-600 uppercase mt-2 tracking-widest">Baru Saja</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/50">
+                                    <div class="flex gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-green-500 flex items-center justify-center text-white shrink-0">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-sm font-bold text-slate-900 dark:text-white">Pembayaran Berhasil</h5>
+                                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pembayaran SPP Oktober sebesar Rp 750.000 telah terverifikasi.</p>
+                                            <p class="text-[9px] font-black text-slate-400 uppercase mt-2 tracking-widest">2 Jam Lalu</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 border-t border-slate-100 dark:border-slate-800">
+                            <button class="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em]">Tandai Semua Dibaca</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+

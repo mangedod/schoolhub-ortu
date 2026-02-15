@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pembayaran - Schoolhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen pb-32 transition-colors duration-300" x-data="{ filterOpen: false }">
+
+    <!-- Header Mobile -->
+    <header class="fixed top-0 inset-x-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-100 dark:border-slate-800/50 z-40 px-6 h-16 flex items-center">
+        <div class="max-w-xl mx-auto w-full flex items-center justify-between">
+            <a href="index.html" class="w-10 h-10 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all">
+                <i class="bi bi-arrow-left text-xl"></i>
+            </a>
+            <h1 class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white">Riwayat Transaksi</h1>
+            <button @click="filterOpen = !filterOpen" class="w-10 h-10 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all">
+                <i class="bi bi-filter-right text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-24 px-6 max-w-xl mx-auto">
+        
+        <!-- Filter Pills -->
+        <div class="flex gap-3 mb-10 overflow-x-auto pb-4 hide-scrollbar">
+            <button class="px-6 py-2.5 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-500/20 shrink-0">Semua</button>
+            <button class="px-6 py-2.5 glass-card text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest shrink-0 border-transparent">Akademik</button>
+            <button class="px-6 py-2.5 glass-card text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest shrink-0 border-transparent">Lainnya</button>
+        </div>
+
+        <!-- History Timeline -->
+        <div class="relative space-y-12 before:absolute before:left-7 before:top-4 before:bottom-0 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+            
+            <!-- Group: Oktober -->
+            <div class="space-y-6">
+                <div class="relative z-10 bg-slate-100 dark:bg-slate-900 inline-block px-4 py-1.5 rounded-full text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] -ml-2 border border-slate-200 dark:border-slate-800">Oktober 2023</div>
+                
+                <!-- Item 1 -->
+                <div class="relative pl-14">
+                    <div class="absolute left-7 top-7 w-4 h-4 bg-green-500 rounded-full border-4 border-[#F8FAFC] dark:border-slate-950 shadow-sm -translate-x-1/2"></div>
+                    <div class="glass-card p-5 rounded-[2.5rem] flex items-center gap-4 group hover:scale-[1.02] transition-all cursor-pointer">
+                        <div class="w-12 h-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm shrink-0">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="w-8 h-8 object-contain" alt="BCA">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-slate-900 dark:text-white text-sm truncate uppercase italic tracking-tight">BCA Virtual Account</div>
+                            <div class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase mt-1 tracking-widest">05 Okt  14:20 WIB</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-slate-900 dark:text-white text-sm">Rp 750k</div>
+                            <div class="text-[9px] font-black text-green-500 uppercase mt-1 tracking-widest">SUCCESS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-14 opacity-80">
+                    <div class="absolute left-7 top-7 w-4 h-4 bg-blue-500 rounded-full border-4 border-[#F8FAFC] dark:border-slate-950 shadow-sm -translate-x-1/2"></div>
+                    <div class="glass-card p-5 rounded-[2.5rem] flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm shrink-0 font-black text-pink-600 text-[10px] italic">QRIS</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-slate-900 dark:text-white text-sm truncate uppercase italic tracking-tight">E-Wallet / Dana</div>
+                            <div class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase mt-1 tracking-widest">01 Okt  09:12 WIB</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-slate-900 dark:text-white text-sm">Rp 120k</div>
+                            <div class="text-[9px] font-black text-blue-500 uppercase mt-1 tracking-widest">WAFA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group: September -->
+            <div class="space-y-6">
+                <div class="relative z-10 bg-slate-100 dark:bg-slate-900 inline-block px-4 py-1.5 rounded-full text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] -ml-2 border border-slate-200 dark:border-slate-800">September 2023</div>
+                
+                <div class="relative pl-14">
+                    <div class="absolute left-7 top-7 w-4 h-4 bg-green-500 rounded-full border-4 border-[#F8FAFC] dark:border-slate-950 shadow-sm -translate-x-1/2"></div>
+                    <div class="glass-card p-5 rounded-[2.5rem] flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm shrink-0">
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="w-8 h-8 object-contain" alt="BCA">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-slate-900 dark:text-white text-sm truncate uppercase italic tracking-tight">BCA Virtual Account</div>
+                            <div class="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase mt-1 tracking-widest">05 Sep  16:45 WIB</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-slate-900 dark:text-white text-sm">Rp 750k</div>
+                            <div class="text-[9px] font-black text-green-500 uppercase mt-1 tracking-widest">SUCCESS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+                                <!-- Navigation: Sleek Minimalist Dock -->
+    <nav class="fixed bottom-0 inset-x-0 z-50 px-4 pb-4 pt-2 pointer-events-none">
+        <div class="max-w-xl mx-auto pointer-events-auto">
+            <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800/50 flex items-center justify-between p-1.5 relative">
+                
+                <!-- Home -->
+                <a href="index.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('dashboard') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('dashboard') ? 'bi-house-door-fill' : 'bi-house-door'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Home</span>
+                </a>
+
+                <!-- Bills -->
+                <a href="billing-list.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('billing') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('billing') ? 'bi-receipt-cutoff' : 'bi-receipt'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Bills</span>
+                </a>
+
+                <!-- Compact Central Button -->
+                <div class="flex-1 flex justify-center -mt-6 relative">
+                    <a href="payment-portal.html" class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-4 border-[#F8FAFC] dark:border-slate-950 transition-all duration-300 hover:scale-105 active:scale-95 group">
+                        <i class="bi bi-wallet2 text-lg"></i>
+                    </a>
+                </div>
+
+                <!-- Chat -->
+                <a href="communication.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('communication') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('communication') ? 'bi-chat-dots-fill' : 'bi-chat-dots'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Chat</span>
+                </a>
+
+                <!-- Settings -->
+                <a href="settings.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('settings') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('settings') ? 'bi-person-fill' : 'bi-person'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Self</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
+
+
+
+
+
+
+

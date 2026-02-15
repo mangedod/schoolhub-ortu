@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Login - Schoolhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl;
+        }
+        .pin-dot {
+            @apply w-4 h-4 rounded-full border-2 border-blue-600 transition-all duration-300;
+        }
+        .pin-dot.active {
+            @apply bg-blue-600 scale-125 shadow-[0_0_15px_rgba(37,99,235,0.5)];
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-300">
+
+    <div class="max-w-md w-full" x-data="{ 
+        pin: '', 
+        add(num) { if(this.pin.length < 4) this.pin += num; if(this.pin.length === 4) setTimeout(() => window.location.href='index.html', 500) },
+        del() { this.pin = this.pin.slice(0, -1) }
+    }">
+        
+        <!-- Profile Info -->
+        <div class="text-center mb-10">
+            <div class="relative inline-block mb-6">
+                <img src="https://i.pravatar.cc/150?u=parent" alt="Avatar" class="w-24 h-24 rounded-[2.5rem] border-4 border-white dark:border-slate-800 shadow-2xl object-cover">
+                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-green-500 border-4 border-[#F8FAFC] dark:border-slate-950 rounded-full flex items-center justify-center text-white text-xs">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+            </div>
+            <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">Selamat Datang</h2>
+            <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Bambang Sugiantoro</p>
+        </div>
+
+        <!-- PIN Status -->
+        <div class="flex justify-center gap-6 mb-12">
+            <div class="pin-dot" :class="pin.length >= 1 ? 'active' : ''"></div>
+            <div class="pin-dot" :class="pin.length >= 2 ? 'active' : ''"></div>
+            <div class="pin-dot" :class="pin.length >= 3 ? 'active' : ''"></div>
+            <div class="pin-dot" :class="pin.length >= 4 ? 'active' : ''"></div>
+        </div>
+
+        <!-- Keypad -->
+        <div class="grid grid-cols-3 gap-4">
+            <template x-for="n in [1,2,3,4,5,6,7,8,9]">
+                <button @click="add(n)" class="h-20 glass-card rounded-3xl flex items-center justify-center text-xl font-black hover:bg-blue-600 hover:text-white transition-all active:scale-90">
+                    <span x-text="n"></span>
+                </button>
+            </template>
+            <button @click="window.location.href='login.html'" class="h-20 flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
+                <i class="bi bi-box-arrow-left text-2xl"></i>
+            </button>
+            <button @click="add(0)" class="h-20 glass-card rounded-3xl flex items-center justify-center text-xl font-black hover:bg-blue-600 hover:text-white transition-all active:scale-90">0</button>
+            <button @click="del()" class="h-20 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-colors">
+                <i class="bi bi-backspace text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Biometric Option -->
+        <div class="mt-12 text-center">
+            <button class="flex flex-col items-center gap-2 mx-auto group">
+                <div class="w-16 h-16 rounded-[1.5rem] bg-blue-600 text-white flex items-center justify-center text-3xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform">
+                    <i class="bi bi-fingerprint"></i>
+                </div>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Gunakan Biometrik</span>
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>

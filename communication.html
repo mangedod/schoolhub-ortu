@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komunikasi - Schoolhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen pb-32 transition-colors duration-300" 
+      x-data="{ 
+        activeTab: 'announcements', 
+        chatOpen: false,
+        messages: [
+            { id: 1, text: 'Halo Pak Bambang, ada yang bisa kami bantu terkait bimbingan konseling Andi?', sender: 'bk', time: '10:00' },
+            { id: 2, text: 'Saya ingin tanya jadwal konsultasi minggu ini.', sender: 'me', time: '10:05' }
+        ],
+        newMessage: '',
+        scrollToBottom() {
+            this.$nextTick(() => {
+                if (this.$refs.chatContainer) {
+                    this.$refs.chatContainer.scrollTo({ top: this.$refs.chatContainer.scrollHeight, behavior: 'smooth' });
+                }
+            });
+        },
+        sendMessage() {
+            if (this.newMessage.trim()) {
+                this.messages.push({
+                    id: Date.now(),
+                    text: this.newMessage,
+                    sender: 'me',
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                this.newMessage = '';
+            }
+        },
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.messages.push({
+                    id: Date.now(),
+                    text: `📎 Melampirkan file: ${file.name}`,
+                    sender: 'me',
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+            }
+        }
+      }"
+      x-init="$watch('messages', () => scrollToBottom()); $watch('chatOpen', value => value && scrollToBottom())">
+
+    <!-- Header Mobile -->
+    <header class="fixed top-0 inset-x-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-100 dark:border-slate-800/50 z-40 px-6 h-16 flex items-center">
+        <div class="max-w-xl mx-auto w-full flex items-center justify-between">
+            <a href="index.html" class="w-10 h-10 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all">
+                <i class="bi bi-arrow-left text-xl"></i>
+            </a>
+            <h1 class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white">Hubungi Sekolah</h1>
+            <div class="w-10"></div>
+        </div>
+    </header>
+
+    <main class="pt-24 px-6 max-w-xl mx-auto">
+        
+        <!-- Tab Switcher -->
+        <div class="flex gap-2 mb-8 p-1.5 bg-slate-100 dark:bg-slate-900 rounded-[1.2rem] h-14 overflow-hidden border border-slate-200/50 dark:border-slate-800/50 transition-colors">
+            <button @click="activeTab = 'announcements'" :class="activeTab === 'announcements' ? 'bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-blue-600 dark:text-blue-400' : 'text-slate-500'" 
+                    class="flex-1 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                <i class="bi bi-megaphone-fill text-sm"></i> PENGUMUMAN
+            </button>
+            <button @click="activeTab = 'chat'" :class="activeTab === 'chat' ? 'bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-blue-600 dark:text-blue-400' : 'text-slate-500'" 
+                    class="flex-1 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                <i class="bi bi-chat-dots-fill text-sm"></i> PESAN
+            </button>
+        </div>
+
+        <!-- Section: Announcements -->
+        <div x-show="activeTab === 'announcements'" x-transition class="space-y-6">
+            <!-- Broadcast Item 1 -->
+            <div class="glass-card rounded-[2.5rem] overflow-hidden group">
+                <div class="h-32 bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center p-8 relative overflow-hidden">
+                     <i class="bi bi-megaphone text-8xl text-white/10 absolute -right-4 -bottom-4 rotate-12 transition-transform group-hover:scale-110"></i>
+                     <p class="text-white font-black text-lg tracking-tight uppercase text-center relative z-10 leading-tight">Ujian Tengah Semester Ganjil 2023</p>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-[9px] font-black uppercase tracking-widest">Akademik</span>
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">2 Jam Lalu</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-6">Diberitahukan kepada seluruh wali murid bahwa pelaksanaan UTS akan dimulai pada tanggal 15 Oktober 2023. Harap pastikan administrasi sudah lengkap...</p>
+                    <button class="w-full py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">Baca Selengkapnya</button>
+                </div>
+            </div>
+
+            <!-- Broadcast Item 2 -->
+            <div class="glass-card p-6 rounded-[2.5rem] border-l-4 border-l-amber-500 flex gap-4">
+                <div class="w-12 h-12 bg-amber-50 dark:bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center shrink-0">
+                    <i class="bi bi-exclamation-triangle-fill text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Peringatan</span>
+                        <span class="text-[9px] font-bold text-slate-400">KEMARIN</span>
+                    </div>
+                    <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-1">Libur Maulid Nabi Muhammad</h4>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-normal">Kegiatan Belajar Mengajar (KBM) ditiadakan pada tanggal 28 September...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Chat -->
+        <div x-show="activeTab === 'chat'" x-cloak x-transition class="space-y-4">
+            <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-4 px-2 italic">Hubungi Tenaga Pendidik</h3>
+            
+            <!-- Person 1 -->
+            <div class="glass-card p-5 rounded-[2.5rem] flex items-center gap-4 active:scale-95 transition-all cursor-pointer group">
+                <div class="relative shrink-0">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-3xl flex items-center justify-center text-white text-xl font-black shadow-lg shadow-blue-500/20">IK</div>
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-white dark:border-slate-900 rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-bold text-slate-900 dark:text-white text-base truncate">Ibu Kartika, S.Pd</div>
+                    <div class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Wali Kelas X-IPA-1</div>
+                </div>
+                <a href="https://wa.me/628123456789" class="w-12 h-12 bg-green-50 dark:bg-green-500/10 text-green-600 rounded-2xl flex items-center justify-center hover:scale-110 transition-all shadow-sm">
+                    <i class="bi bi-whatsapp text-2xl"></i>
+                </a>
+            </div>
+
+            <!-- Person 2 (Bimbingan Konseling with Live Chat) -->
+            <div @click="chatOpen = true" class="glass-card p-5 rounded-[2.5rem] flex items-center gap-4 active:scale-95 transition-all cursor-pointer group relative overflow-hidden">
+                <div class="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-0.5 bg-red-500 rounded-full animate-pulse">
+                    <div class="w-1 h-1 bg-white rounded-full"></div>
+                    <span class="text-[8px] font-black text-white uppercase tracking-widest">LIVE</span>
+                </div>
+                
+                <div class="relative shrink-0">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center text-white text-xl font-black shadow-lg shadow-pink-500/20">BK</div>
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-white dark:border-slate-900 rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-bold text-slate-900 dark:text-white text-base truncate">Bimbingan Konseling (BK)</div>
+                    <div class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Konsultasi Langsung</div>
+                </div>
+                <div class="w-12 h-12 bg-blue-50 dark:bg-blue-500/10 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                    <i class="bi bi-chat-dots-fill text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+                                <!-- Navigation: Sleek Minimalist Dock -->
+    <nav class="fixed bottom-0 inset-x-0 z-50 px-4 pb-4 pt-2 pointer-events-none">
+        <div class="max-w-xl mx-auto pointer-events-auto">
+            <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800/50 flex items-center justify-between p-1.5 relative">
+                
+                <!-- Home -->
+                <a href="index.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('dashboard') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('dashboard') ? 'bi-house-door-fill' : 'bi-house-door'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Home</span>
+                </a>
+
+                <!-- Bills -->
+                <a href="billing-list.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('billing') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('billing') ? 'bi-receipt-cutoff' : 'bi-receipt'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Bills</span>
+                </a>
+
+                <!-- Compact Central Button -->
+                <div class="flex-1 flex justify-center -mt-6 relative">
+                    <a href="payment-portal.html" class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-4 border-[#F8FAFC] dark:border-slate-950 transition-all duration-300 hover:scale-105 active:scale-95 group">
+                        <i class="bi bi-wallet2 text-lg"></i>
+                    </a>
+                </div>
+
+                <!-- Chat -->
+                <a href="communication.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('communication') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('communication') ? 'bi-chat-dots-fill' : 'bi-chat-dots'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Chat</span>
+                </a>
+
+                <!-- Settings -->
+                <a href="settings.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('settings') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('settings') ? 'bi-person-fill' : 'bi-person'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Self</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LIVE CHAT MODAL -->
+    <div x-show="chatOpen" 
+         x-cloak
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-full"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-full"
+         class="fixed inset-0 z-[100] bg-white dark:bg-slate-950 flex flex-col">
+        
+        <!-- Chat Header -->
+        <header class="h-20 border-b border-slate-100 dark:border-slate-800 flex items-center px-6 shrink-0 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+            <button @click="chatOpen = false" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <i class="bi bi-chevron-left text-xl"></i>
+            </button>
+            <div class="flex-1 ml-4 flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-black text-sm">BK</div>
+                <div>
+                    <h4 class="text-sm font-black text-slate-900 dark:text-white leading-none">Bimbingan Konseling</h4>
+                    <span class="text-[9px] font-bold text-green-500 uppercase tracking-widest">Sedang Online</span>
+                </div>
+            </div>
+            <button class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+        </header>
+
+        <!-- Message Body -->
+        <div x-ref="chatContainer" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div class="text-center px-4 py-8">
+                <div class="w-16 h-16 bg-blue-50 dark:bg-blue-500/10 text-blue-600 rounded-3xl flex items-center justify-center text-2xl mx-auto mb-4">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-loose">Percakapan ini dilindungi enkripsi <br>Hanya Anda dan Konselor yang dapat membaca</p>
+            </div>
+
+            <template x-for="msg in messages" :key="msg.id">
+                <div class="flex" :class="msg.sender === 'me' ? 'justify-end' : 'justify-start'">
+                    <div class="max-w-[80%]">
+                        <div class="p-4 rounded-[1.5rem]" 
+                             :class="msg.sender === 'me' ? 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white rounded-tl-none'">
+                            <p class="text-xs font-semibold leading-relaxed" x-text="msg.text"></p>
+                        </div>
+                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mt-2 px-1" 
+                           :class="msg.sender === 'me' ? 'text-right' : 'text-left'" x-text="msg.time"></p>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-6 border-t border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+            <div class="flex items-center gap-3">
+                <input type="file" x-ref="fileInput" @change="handleFileUpload($event)" class="hidden">
+                <button @click="$refs.fileInput.click()" class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center hover:text-blue-600 transition-colors">
+                    <i class="bi bi-plus-lg text-xl"></i>
+                </button>
+                <div class="flex-1 relative">
+                    <input type="text" x-model="newMessage" @keydown.enter="sendMessage()" placeholder="Tulis pesan..." 
+                           class="w-full h-12 pl-5 pr-12 bg-slate-100 dark:bg-slate-800 border-transparent rounded-2xl outline-none focus:ring-2 focus:ring-blue-600/20 dark:text-white text-xs font-semibold">
+                    <button @click="sendMessage()" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                        <i class="bi bi-send-fill text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+

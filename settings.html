@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setelan Profil - Schoolhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen pb-32 transition-colors duration-300" 
+      x-data="{ 
+        darkMode: document.documentElement.classList.contains('dark'),
+        toggleTheme() {
+            this.darkMode = !this.darkMode;
+            if (this.darkMode) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        }
+      }">
+
+    <!-- Header Mobile -->
+    <header class="fixed top-0 inset-x-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-100 dark:border-slate-800/50 z-40 px-6 h-16 flex items-center">
+        <div class="max-w-xl mx-auto w-full flex items-center justify-between">
+            <a href="index.html" class="w-10 h-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all">
+                <i class="bi bi-arrow-left text-xl"></i>
+            </a>
+            <h1 class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white">Pengaturan Utama</h1>
+            <div class="w-10"></div>
+        </div>
+    </header>
+
+    <main class="pt-24 px-6 max-w-xl mx-auto">
+        
+        <!-- Profile Section -->
+        <div class="flex flex-col items-center mb-10">
+            <div class="relative mb-4 group">
+                <div class="w-24 h-24 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-indigo-700 p-1 shadow-2xl shadow-blue-500/20">
+                    <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[2.3rem] flex items-center justify-center text-3xl font-black text-blue-600">
+                        BW
+                    </div>
+                </div>
+                <button class="absolute bottom-0 right-0 w-8 h-8 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 flex items-center justify-center text-blue-600 hover:scale-110 transition-all">
+                    <i class="bi bi-camera-fill text-sm"></i>
+                </button>
+            </div>
+            <h2 class="text-xl font-black text-slate-900 dark:text-white mb-1">Bambang Wijaya</h2>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Wali Murid â€¢ Premium User</p>
+        </div>
+
+        <!-- Menu Groups -->
+        <div class="space-y-8">
+            <!-- Account Settings -->
+            <div>
+                <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-4 px-2 italic">Akun & Profil</h3>
+                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl rounded-[2.5rem] p-4 space-y-2">
+                    <a href="password.html" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                        <div class="w-10 h-10 bg-blue-50 dark:bg-blue-500/10 text-blue-600 rounded-xl flex items-center justify-center">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <span class="flex-1 font-bold text-sm text-slate-700 dark:text-slate-200">Ganti Kata Sandi</span>
+                        <i class="bi bi-chevron-right text-slate-300 group-hover:text-blue-500 transition-colors"></i>
+                    </a>
+                    <div class="h-px bg-slate-100 dark:bg-slate-800 mx-4"></div>
+                    <button @click="toggleTheme()" class="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group text-left">
+                        <div class="w-10 h-10 bg-amber-50 dark:bg-amber-500/10 text-amber-600 rounded-xl flex items-center justify-center">
+                            <i class="bi bi-moon-stars-fill" x-show="!darkMode"></i>
+                            <i class="bi bi-sun-fill text-yellow-500" x-show="darkMode"></i>
+                        </div>
+                        <span class="flex-1 font-bold text-sm text-slate-700 dark:text-slate-200">Mode Gelap</span>
+                        <div class="w-12 h-6 bg-slate-200 dark:bg-slate-700 rounded-full relative transition-colors" :class="darkMode ? 'bg-blue-600' : ''">
+                            <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform" :class="darkMode ? 'translate-x-6' : ''"></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preferences -->
+            <div>
+                <h3 class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-4 px-2 italic">Preferensi</h3>
+                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl rounded-[2.5rem] p-4 space-y-2">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                        <div class="w-10 h-10 bg-purple-50 dark:bg-purple-500/10 text-purple-600 rounded-xl flex items-center justify-center">
+                            <i class="bi bi-bell-fill"></i>
+                        </div>
+                        <span class="flex-1 font-bold text-sm text-slate-700 dark:text-slate-200">Notifikasi Push</span>
+                        <div class="w-12 h-6 bg-blue-600 rounded-full relative">
+                            <div class="absolute top-1 right-1 w-4 h-4 bg-white rounded-full"></div>
+                        </div>
+                    </div>
+                    <div class="h-px bg-slate-100 dark:bg-slate-800 mx-4"></div>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
+                        <div class="w-10 h-10 bg-green-50 dark:bg-green-500/10 text-green-600 rounded-xl flex items-center justify-center">
+                            <i class="bi bi-globe"></i>
+                        </div>
+                        <span class="flex-1 font-bold text-sm text-slate-700 dark:text-slate-200">Bahasa</span>
+                        <span class="text-[10px] font-black text-slate-400 uppercase italic">Indonesia</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <button class="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl rounded-[2rem] p-5 flex items-center justify-center gap-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all active:scale-95 group">
+                <i class="bi bi-box-arrow-right text-lg"></i>
+                <span class="text-sm font-black uppercase tracking-widest">Keluar Aplikasi</span>
+            </button>
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-[0.3em]">Schoolhub v2.0.4-Build</p>
+        </div>
+
+    </main>
+
+                                <!-- Navigation: Sleek Minimalist Dock -->
+    <nav class="fixed bottom-0 inset-x-0 z-50 px-4 pb-4 pt-2 pointer-events-none">
+        <div class="max-w-xl mx-auto pointer-events-auto">
+            <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-800/50 flex items-center justify-between p-1.5 relative">
+                
+                <!-- Home -->
+                <a href="index.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('dashboard') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('dashboard') ? 'bi-house-door-fill' : 'bi-house-door'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Home</span>
+                </a>
+
+                <!-- Bills -->
+                <a href="billing-list.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('billing') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('billing') ? 'bi-receipt-cutoff' : 'bi-receipt'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Bills</span>
+                </a>
+
+                <!-- Compact Central Button -->
+                <div class="flex-1 flex justify-center -mt-6 relative">
+                    <a href="payment-portal.html" class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-4 border-[#F8FAFC] dark:border-slate-950 transition-all duration-300 hover:scale-105 active:scale-95 group">
+                        <i class="bi bi-wallet2 text-lg"></i>
+                    </a>
+                </div>
+
+                <!-- Chat -->
+                <a href="communication.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('communication') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('communication') ? 'bi-chat-dots-fill' : 'bi-chat-dots'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Chat</span>
+                </a>
+
+                <!-- Settings -->
+                <a href="settings.html" class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-2xl transition-all duration-300"
+                   :class="window.location.pathname.includes('settings') ? 'text-blue-600 bg-blue-50/50 dark:bg-blue-500/10' : 'text-slate-400 hover:text-slate-600'">
+                    <i class="bi text-lg transition-transform duration-300" :class="window.location.pathname.includes('settings') ? 'bi-person-fill' : 'bi-person'"></i>
+                    <span class="text-[8px] font-bold uppercase tracking-widest leading-none">Self</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
+
+
+
+
+
+

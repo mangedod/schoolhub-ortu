@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - Schoolhub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('color-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-xl;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-300" x-data="{ step: 1, selectedMethod: '' }">
+
+    <main class="max-w-xl mx-auto pt-10 px-6 pb-20">
+        
+        <!-- Header -->
+        <div class="flex items-center mb-10">
+            <a href="index.html" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all active:scale-95">
+                <i class="bi bi-arrow-left text-xl"></i>
+            </a>
+            <h1 class="ml-4 text-xl font-black text-slate-900 dark:text-white tracking-tight uppercase">Pembayaran</h1>
+        </div>
+
+        <template x-if="step === 1">
+            <div x-transition class="space-y-8">
+                <!-- Summary Card -->
+                <div class="glass-card rounded-[2.5rem] p-8 border-t-4 border-t-blue-600">
+                    <div class="flex justify-between items-start mb-6 border-b border-slate-100 dark:border-slate-800 pb-6">
+                        <div>
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Rincian Tagihan</p>
+                            <h2 class="text-xl font-black text-slate-900 dark:text-white tracking-tight leading-none uppercase">Oktober 2023</h2>
+                        </div>
+                        <div class="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg text-[10px] font-black uppercase tracking-tighter">Bambang W.</div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500 dark:text-slate-400 font-medium">SPP Oktober 2023</span>
+                            <span class="font-bold text-slate-900 dark:text-white">Rp 750.000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500 dark:text-slate-400 font-medium">Iuran Gedung</span>
+                            <span class="font-bold text-slate-900 dark:text-white">Rp 700.000</span>
+                        </div>
+                        <div class="flex justify-between text-sm pt-4 border-t border-slate-100 dark:border-slate-800">
+                            <span class="text-slate-900 dark:text-white font-black uppercase tracking-widest text-[10px]">Total Pembayaran</span>
+                            <span class="font-black text-blue-600 text-xl tracking-tighter leading-none">Rp 1.450.000</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-tight">* Biaya admin mungkin bertambah sesuai metode</p>
+                </div>
+
+                <!-- Payment Methods -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-6 px-1">Pilih Metode</h3>
+                    <div class="space-y-4">
+                        <!-- Bank VA -->
+                        <div @click="selectedMethod = 'va-bca'" :class="selectedMethod === 'va-bca' ? 'border-blue-500 ring-2 ring-blue-500/20 bg-blue-50/50 dark:bg-blue-500/10' : 'border-transparent'" class="glass-card p-5 rounded-[2rem] border-2 cursor-pointer transition-all active:scale-95 flex items-center gap-4">
+                            <div class="w-14 h-10 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm shrink-0">
+                                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="w-full h-full object-contain" alt="BCA">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-slate-900 dark:text-white text-sm truncate uppercase">BCA Virtual Account</div>
+                                <p class="text-[9px] text-green-500 font-black uppercase tracking-widest">Verifikasi Otomatis</p>
+                            </div>
+                            <div x-show="selectedMethod === 'va-bca'" class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white scale-110 shadow-lg shadow-blue-500/30">
+                                <i class="bi bi-check-lg text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- E-Wallet -->
+                        <div @click="selectedMethod = 'qris'" :class="selectedMethod === 'qris' ? 'border-pink-500 ring-2 ring-pink-500/20 bg-pink-50/50 dark:bg-pink-500/10' : 'border-transparent'" class="glass-card p-5 rounded-[2rem] border-2 cursor-pointer transition-all active:scale-95 flex items-center gap-4">
+                            <div class="w-14 h-10 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm shrink-0">
+                                 <span class="text-pink-600 font-black italic text-[10px] uppercase">QRIS</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-slate-900 dark:text-white text-sm truncate uppercase">QRIS / E-Wallet</div>
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest">Dana, OVO, ShopeePay</p>
+                            </div>
+                            <div x-show="selectedMethod === 'qris'" class="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center text-white scale-110 shadow-lg shadow-pink-500/30">
+                                <i class="bi bi-check-lg text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button 
+                    @click="step = 2" 
+                    :disabled="!selectedMethod"
+                    class="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl font-black uppercase text-[11px] tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                    Konfirmasi Pembayaran
+                </button>
+            </div>
+        </template>
+
+        <template x-if="step === 2">
+            <div x-transition class="text-center">
+                <div class="glass-card rounded-[3rem] p-10 relative overflow-hidden">
+                    <div class="w-20 h-20 bg-blue-500/10 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
+                        <i class="bi bi-hourglass-split text-4xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase mb-4 leading-tight">Menunggu Pembayaran</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">Silakan selesaikan pembayaran sebelum batas waktu berakhir.</p>
+                    
+                    <div class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 mb-8 border border-slate-100 dark:border-slate-800">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kode Virtual Account</p>
+                        <div class="flex items-center justify-center gap-3">
+                            <span class="text-2xl font-black text-blue-600 tracking-[0.2em]">1230098765432</span>
+                            <button class="p-2 text-slate-400 hover:text-blue-600 transition-colors"><i class="bi bi-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <a href="index.html" class="w-full py-5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] block">Kembali Ke Beranda</a>
+                </div>
+            </div>
+        </template>
+
+    </main>
+
+</body>
+</html>
+
+
+
+
+
+
+
